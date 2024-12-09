@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.api_url + "/clients";
+const API_BASE_URL = "http://client-" + process.env.api_url + "/clients";
 
 // Define TypeScript interfaces for the DTOs and entities
 export interface Client {
@@ -43,6 +43,7 @@ export async function getClientById(id: number): Promise<Client> {
 // Get all clients
 export async function getAllClients(): Promise<Client[]> {
   const response = await fetch(`${API_BASE_URL}`);
+  console.log({API_BASE_URL});
   if (!response.ok) throw new Error("Failed to fetch clients");
   return response.json();
 }

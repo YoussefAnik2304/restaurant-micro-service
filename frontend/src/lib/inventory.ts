@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.api_url +"/inventory";
+const API_BASE_URL = "http://inventory-service-app.azurewebsites.net/api/v1/inventory";
 
 // Define TypeScript interfaces for Inventory and ingredients map
 export interface Inventory {

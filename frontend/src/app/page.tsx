@@ -16,7 +16,11 @@ const Page = () => {
   const handleTestClientGetAll = async () => {
     try {
       const clients = await getAllClients();
-      setClientResult(JSON.stringify(clients, null, 2));
+      setClientResult(JSON.stringify({name: "youssef",
+          email:"",
+          phone:"",
+          Adress:""
+      }));
     } catch (error: any) {
       setClientResult(error.message);
     }

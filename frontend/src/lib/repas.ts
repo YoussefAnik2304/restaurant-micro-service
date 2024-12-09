@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.api_url + "/repas";
+const API_BASE_URL = "http://repas-" + process.env.api_url + "/repas";
 
 // Define TypeScript interfaces for the entities
 export interface Repas {
