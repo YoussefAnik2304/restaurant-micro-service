@@ -11,7 +11,11 @@ export interface Inventory {
 
 // Get all inventory items
 export async function getAllItems(): Promise<Inventory[]> {
-  const response = await fetch(`${API_BASE_URL}`);
+  const response = await fetch(`${API_BASE_URL}`,{
+    headers :{
+      'Access-Control-Allow-Origin':'*',
+    }
+  });
   if (!response.ok) throw new Error("Failed to fetch inventory items");
   return response.json();
 }
