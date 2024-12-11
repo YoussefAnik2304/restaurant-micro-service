@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
   push:
     branches:
-    - main
+      - main
 
 env:
   AZURE_WEBAPP_NAME_SERVICE1: client-service-app
-  AZURE_WEBAPP_NAME_SERVICE2: invenroty-service-app
+  AZURE_WEBAPP_NAME_SERVICE2: inventory-service-app
   AZURE_WEBAPP_NAME_SERVICE3: repas-service-app
   DOCKER_IMAGE_NAME_SERVICE1: arb928/client
   DOCKER_IMAGE_NAME_SERVICE2: arb928/inventory
@@ -29,25 +29,34 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Set execute permissions for mvnw
+        run: chmod +x ./BACK-END/client-service/mvnw
 
       - name: Build and Push Docker Image for client
         uses: docker/build-push-action@v4
         with:
-          context: ./client
+          context: ./BACK-END/client-service
           push: true
           tags: ${{ env.DOCKER_IMAGE_NAME_SERVICE1 }}:latest
 
+      - name: Set execute permissions for mvnw
+        run: chmod +x ./BACK-END/Inventory-service/mvnw
+      
       - name: Build and Push Docker Image for inventory
         uses: docker/build-push-action@v4
         with:
-          context: ./inventory
+          context: ./BACK-END/Inventory-service
           push: true
           tags: ${{ env.DOCKER_IMAGE_NAME_SERVICE2 }}:latest
 
+      - name: Set execute permissions for mvnw
+        run: chmod +x ./BACK-END/repas-service/mvnw
+      
       - name: Build and Push Docker Image for repas
         uses: docker/build-push-action@v4
         with:
-          context: ./repas
+          context: ./BACK-END/repas-service
           push: true
           tags: ${{ env.DOCKER_IMAGE_NAME_SERVICE3 }}:latest
 
@@ -57,19 +66,19 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy client to Azure Web App
-        uses: azure/webapps-container-deploy@v1
+        uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME_SERVICE1 }}
           images: ${{ env.DOCKER_IMAGE_NAME_SERVICE1 }}:latest
 
       - name: Deploy inventory to Azure Web App
-        uses: azure/webapps-container-deploy@v1
+        uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME_SERVICE2 }}
           images: ${{ env.DOCKER_IMAGE_NAME_SERVICE2 }}:latest
 
       - name: Deploy repas to Azure Web App
-        uses: azure/webapps-container-deploy@v1
+        uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME_SERVICE3 }}
           images: ${{ env.DOCKER_IMAGE_NAME_SERVICE3 }}:latest

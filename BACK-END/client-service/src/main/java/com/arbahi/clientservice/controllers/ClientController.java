@@ -26,7 +26,7 @@ public class ClientController {
         return clientService.getClientById(id);
     }
 
-    @GetMapping
+    @GetMapping("/getall")
     public List<Client> getAllClients() {
         return clientService.getAllClients();
     }
@@ -46,7 +46,7 @@ public class ClientController {
         return clientService.getAllMeals();
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteClient(@PathVariable Long id) {
         clientService.deleteClient(id);
     }
